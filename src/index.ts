@@ -1,4 +1,7 @@
 import "./components/export"
+import "./screens/export"
+import { Screens } from "./types/screens";
+import { appState } from "./store";
 
 class AppContainer extends HTMLElement {
     constructor(){
@@ -11,8 +14,22 @@ class AppContainer extends HTMLElement {
     }
 
     render() {
-        const something = this.ownerDocument.createElement('div');
-        this.shadowRoot?.appendChild(something);
+        if (this.shadowRoot) this.shadowRoot.innerHTML = "";
+
+        switch (appState.screens) {
+          case Screens.CreateRecipe:
+            const createRecipe = this.ownerDocument.createElement("create-recipe");
+            createRecipe.innerText = "Create";
+            this.shadowRoot?.appendChild(createRecipe);
+            break;
+
+          case Screens.RecipeList:
+            const recipeList = this.ownerDocument.createElement("recipe-list");
+            recipeList.innerText = "List";
+            this.shadowRoot?.appendChild(recipeList);
+            break;
+        }
+
     }
 }
 
